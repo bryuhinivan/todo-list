@@ -1,2 +1,156 @@
 @import 'normalize.css';
 @import 'variables.scss';
+
+/* =====================GLOBAL=================== */
+/* =====================GLOBAL=================== */
+
+:root {
+  --color-white: #ffffff;
+  --color-purple500: #9e78cf;
+  --color-purple800: #15101c;
+  --color-purple900: #0d0714;
+  --color-green500: #78cfb0;
+  --color-gray500: #777777;
+  --color-red: #cf5656;
+
+  --border-radius: 0.625rem;
+  --border: 1px solid #9e78cf;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100vh;
+}
+
+body {
+  background-color: var(--color-purple900);
+}
+
+main {
+  display: block;
+  unicode-bidi: isolate;
+}
+
+div {
+  display: block;
+  unicode-bidi: isolate;
+}
+
+button {
+  outline: 0px;
+  border: 0px;
+  cursor: pointer;
+  background: none;
+}
+
+.container {
+  background: var(--color-purple900);
+  height: 100%;
+  font-family: Rubik, sans-serif;
+}
+
+.main {
+  height: 100%;
+}
+
+.wrapper {
+  max-width: 500px;
+  margin: 0px auto;
+  padding: 5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* =====================FORM=================== */
+/* =====================FORM=================== */
+.card-body {
+}
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+}
+
+.form-control {
+  background: none;
+  border: var(--border);
+  padding: 0px 1rem;
+  border-radius: var(--border-radius);
+  border-color: var(--color-purple500);
+}
+
+.form-control:focus {
+  background-color: var(--color-purple900);
+  box-shadow: none;
+}
+
+.form-control:not(:last-child) {
+  margin-right: 0.4rem;
+}
+
+.btn {
+  background: var(--color-purple500);
+  color: var(--color-white);
+  border-radius: var(--border-radius);
+  height: 100%;
+  width: 10%;
+  transition: 0.45s;
+}
+
+.btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+}
+
+.btn:hover {
+  background: rgb(62, 22, 113);
+}
+
+/* =====================ADD TASK=================== */
+/* =====================ADD TASK=================== */
+
+.text {
+  color: var(--color-white);
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+  font-weight: 400;
+}
+
+.list-group-item {
+  background-color: var(--color-purple800);
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.375rem 1.375rem;
+  color: var(--color-purple500);
+}
+
+.task-item__buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-item {
+  color: var(--color-purple500);
+  transition: 0.35s;
+}
+
+.btn-item-checkmark:hover svg path {
+  fill: var(--color-green500);
+  transition: all ease 0.3s;
+}
+
+.btn-item-garbage:hover svg path {
+  fill: var(--color-red);
+  transition: all ease 0.3s;
+}
