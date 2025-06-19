@@ -1,5 +1,5 @@
-@import 'normalize.css';
-@import 'variables.scss';
+@import "normalize.css";
+@import "variables.scss";
 
 /* =====================GLOBAL=================== */
 /* =====================GLOBAL=================== */
@@ -7,14 +7,17 @@
 :root {
   --color-white: #ffffff;
   --color-purple500: #9e78cf;
+  --color-purple600: #3e1671;
   --color-purple800: #15101c;
   --color-purple900: #0d0714;
   --color-green500: #78cfb0;
   --color-gray500: #777777;
+  --color-gray300: #cdcdcd;
   --color-red: #cf5656;
+  --color-yellow: #f4eb46;
 
   --border-radius: 0.625rem;
-  --border: 1px solid #9e78cf;
+  --border: 1px solid var(--color-purple500);
 }
 
 * {
@@ -23,7 +26,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   min-height: 100vh;
 }
 
@@ -32,11 +36,6 @@ body {
 }
 
 main {
-  display: block;
-  unicode-bidi: isolate;
-}
-
-div {
   display: block;
   unicode-bidi: isolate;
 }
@@ -69,8 +68,6 @@ button {
 
 /* =====================FORM=================== */
 /* =====================FORM=================== */
-.card-body {
-}
 
 .form-group {
   display: flex;
@@ -86,6 +83,7 @@ button {
 }
 
 .form-control:focus {
+  color: var(--color-white);
   background-color: var(--color-purple900);
   box-shadow: none;
 }
@@ -112,7 +110,7 @@ button {
 }
 
 .btn:hover {
-  background: rgb(62, 22, 113);
+  background: var(--color-purple600);
 }
 
 /* =====================ADD TASK=================== */
@@ -125,6 +123,15 @@ button {
   font-weight: 400;
 }
 
+.none {
+  display: none !important;
+}
+
+.done-task {
+  text-decoration: line-through;
+  color: var(--color-gray500);
+}
+
 .list-group-item {
   background-color: var(--color-purple800);
   border-radius: var(--border-radius);
@@ -133,6 +140,12 @@ button {
   justify-content: space-between;
   padding: 1.375rem 1.375rem;
   color: var(--color-purple500);
+  margin-bottom: 0.5rem;
+}
+
+.task-title--done {
+  text-decoration: line-through;
+  color: var(--color-gray300);
 }
 
 .task-item__buttons {
@@ -148,9 +161,32 @@ button {
 .btn-item-checkmark:hover svg path {
   fill: var(--color-green500);
   transition: all ease 0.3s;
+  transform: scale(1.07);
 }
 
 .btn-item-garbage:hover svg path {
   fill: var(--color-red);
   transition: all ease 0.3s;
+  transform: scale(1.05);
+}
+
+.btn-item-backarrow:hover svg path {
+  fill: var(--color-yellow);
+  transition: all ease 0.3s;
+  transform: scale(1.05);
+}
+
+.btn-action {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.btn-action svg {
+  pointer-events: none; // клик срабатывает на самой кнопке, а не на svg
 }
