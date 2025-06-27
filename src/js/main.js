@@ -1,13 +1,12 @@
 import "../scss/style.scss";
 import { doneIcon, deleteIcon } from "./icons.js";
 import { taskRepository } from "./taskRepository.js";
+import { taskModel } from "./taskModel.js";
 
 const form = document.querySelector("#form");
 const taskInput = document.querySelector("#taskInput");
 const tasksList = document.querySelector("#tasksList");
 const completedTasks = document.querySelector(".completed-tasks");
-
-let tasks = [];
 
 document.addEventListener("DOMContentLoaded", getTasks);
 form.addEventListener("submit", addTask);
@@ -21,10 +20,10 @@ async function getTasks() {
 
     tasksList.innerHTML = "";
     completedTasks.innerHTML = "";
-    tasks = tasksFromServer;
 
-    const activeTasks = tasks.filter((task) => !task.done);
-    const doneTasks = tasks.filter((task) => task.done);
+    taskModel.setTasks(tasksFromServer);
+    const activeTasks = taskModel.getActiveTasks();
+    const doneTasks = taskModel.getDoneTasks();
 
     activeTasks.forEach((task) => {
       const taskHTML = `
@@ -74,7 +73,7 @@ async function addTask(event) {
       done: false,
     });
 
-    tasks.push(newTask);
+    taskModel.addTask(newTask);
 
     const cssClass = newTask.done
       ? "task-title task-title--done"
@@ -112,7 +111,7 @@ async function deleteTask(event) {
     try {
       await taskRepository.deleteTask(id);
 
-      tasks = tasks.filter((task) => task.id !== id);
+      taskModel.deleteTask(id);
       parentNode.remove();
       updateTitlesVisibility();
     } catch (error) {
@@ -125,12 +124,11 @@ async function doneTask(event) {
   if (event.target.dataset.action === "done") {
     const parentNode = event.target.closest(".list-group-item");
     const id = +parentNode.id;
-    const task = tasks.find((task) => task.id === id);
 
     try {
       await taskRepository.patchTask({ done: true }, id);
 
-      task.done = true;
+      taskModel.toggleTask(id);
       const taskTitle = parentNode.querySelector(".task-title");
       const taskText = taskTitle.textContent;
 
@@ -169,10 +167,7 @@ async function returnTask(event) {
     try {
       await taskRepository.patchTask({ done: false }, id);
 
-      const task = tasks.find((task) => task.id === id);
-      if (task) {
-        task.done = false;
-      }
+      taskModel.toggleTask(id);
 
       tasksList.insertAdjacentHTML(
         "beforeend",
