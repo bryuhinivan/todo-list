@@ -8,6 +8,7 @@ const taskInput = document.querySelector("#taskInput");
 const tasksList = document.querySelector("#tasksList");
 const completedTasks = document.querySelector(".completed-tasks");
 const taskModel = new TaskModel([]);
+const storageKey = "tasks";
 
 document.addEventListener("DOMContentLoaded", getTasks);
 form.addEventListener("submit", addTask);
@@ -23,6 +24,7 @@ async function getTasks() {
     completedTasks.innerHTML = "";
 
     taskModel.setTasks(tasks);
+    saveTasksToLS(tasks);
     const activeTasks = taskModel.getActiveTasks();
     const doneTasks = taskModel.getDoneTasks();
 
@@ -75,6 +77,7 @@ async function addTask(event) {
     });
 
     taskModel.addTask(newTask);
+    saveTasksToLS(taskModel.tasks);
 
     const cssClass = newTask.done
       ? "task-title task-title--done"
@@ -113,6 +116,7 @@ async function deleteTask(event) {
       await taskRepository.deleteTask(id);
 
       taskModel.deleteTask(id);
+      saveTasksToLS(taskModel.tasks);
       parentNode.remove();
       updateTitlesVisibility();
     } catch (error) {
@@ -130,6 +134,7 @@ async function doneTask(event) {
       await taskRepository.patchTask({ done: true }, id);
 
       taskModel.toggleTask(id);
+      saveTasksToLS(taskModel.tasks);
       const taskTitle = parentNode.querySelector(".task-title");
       const taskText = taskTitle.textContent;
 
@@ -169,7 +174,7 @@ async function returnTask(event) {
       await taskRepository.patchTask({ done: false }, id);
 
       taskModel.toggleTask(id);
-
+      saveTasksToLS(taskModel.tasks);
       tasksList.insertAdjacentHTML(
         "beforeend",
         `
@@ -215,4 +220,8 @@ function updateTitlesVisibility() {
   } else {
     doneTitle.classList.remove("none");
   }
+}
+
+function saveTasksToLS(tasks) {
+  localStorage.setItem(storageKey, JSON.stringify(tasks));
 }
